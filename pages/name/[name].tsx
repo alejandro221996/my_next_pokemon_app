@@ -15,7 +15,6 @@ import { pokeApi } from "../../api";
 import { Layout } from "../../components/layouts";
 import { Pokemon, PokemonListResponse, ReqResToken } from "../../interfaces";
 import { getPokemonInfo, localFavorites } from "../../utils";
-import getImageType from "../../utils/getTypeImage";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { getTextGradient } from "../../utils/getTypeColor";
@@ -91,6 +90,7 @@ const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
   }, []);
 
   const textGradient = getTextGradient(pokemon.types[0].type.name);
+  console.log(textGradient);
   return (
     <Layout title={pokemon.name}>
       <Grid.Container css={{ marginTop: "5px" }} gap={2}>
