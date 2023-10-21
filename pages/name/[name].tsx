@@ -18,6 +18,7 @@ import { getPokemonInfo, localFavorites } from "../../utils";
 import getImageType from "../../utils/getTypeImage";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { getTextGradient } from "../../utils/getTypeColor";
 
 interface Props {
   pokemon: Pokemon;
@@ -89,6 +90,7 @@ const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
     getEvolutions();
   }, []);
 
+  const textGradient = getTextGradient(pokemon.types[0].type.name);
   return (
     <Layout title={pokemon.name}>
       <Grid.Container css={{ marginTop: "5px" }} gap={2}>
@@ -104,7 +106,7 @@ const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
                 width="100%"
                 height={200}
               />
-              <Text h1 transform="capitalize">
+              <Text h1 transform="capitalize" css={{ textGradient }}>
                 Name: {pokemon.name}
               </Text>
               <Text h1 transform="capitalize">
@@ -113,11 +115,7 @@ const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
               <Text h1 transform="capitalize">
                 Height: {pokemon.height}cm.
               </Text>
-              <Text
-                h1
-                transform="capitalize"
-                color={getImageType(pokemon.types[0].type.name)}
-              >
+              <Text h1 transform="capitalize" css={{ textGradient }}>
                 Type: {pokemon.types[0].type.name}
               </Text>
             </Card.Body>
@@ -167,17 +165,13 @@ const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
                           width="100%"
                           height={200}
                         />
-                        <Text h3 transform="capitalize">
+                        <Text h3 transform="capitalize" css={{ textGradient }}>
                           Name: {evo.name}
                         </Text>
                         <Text h3 transform="capitalize">
                           Weight: {evo.weight}gr.
                         </Text>
-                        <Text
-                          h1
-                          transform="capitalize"
-                          color={getImageType(evo.types[0].type.name)}
-                        >
+                        <Text h3 transform="capitalize" css={{ textGradient }}>
                           Type: {evo.types[0].type.name}
                         </Text>
                       </Card.Body>
