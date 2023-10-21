@@ -1,36 +1,34 @@
+const toggleFavorite = (id: string) => {
+  let favorites: string[] = JSON.parse(
+    localStorage.getItem("favorites") || "[]"
+  );
 
+  if (favorites.includes(id)) {
+    favorites = favorites.filter((pokeId) => pokeId !== id);
+  } else {
+    favorites.push(id);
+  }
 
-const toggleFavorite = ( id: number ) => {
+  localStorage.setItem("favorites", JSON.stringify(favorites));
+};
 
-    let favorites: number[] = JSON.parse( localStorage.getItem('favorites') || '[]' );
-    
-    if ( favorites.includes( id ) ) {
-        favorites = favorites.filter( pokeId => pokeId !== id );
-    } else {
-        favorites.push( id );
-    }
+const existInFavorites = (id: string): boolean => {
+  if (typeof window === "undefined") return false;
 
-    localStorage.setItem('favorites', JSON.stringify( favorites ) );
-}
+  const favorites: string[] = JSON.parse(
+    localStorage.getItem("favorites") || "[]"
+  );
+  console.log("Valor de favorite exist");
+  console.log(favorites.includes(id));
+  return favorites.includes(id);
+};
 
-const existInFavorites = ( id: number ): boolean => {
-
-    if ( typeof window === 'undefined' ) return false;
-    
-    const favorites: number[] = JSON.parse( localStorage.getItem('favorites') || '[]' );
-
-    return favorites.includes( id );
-}
-
-
-const pokemons = (): number[] => {
-    return JSON.parse( localStorage.getItem('favorites') || '[]' );
-}
-
-
+const pokemons = (): string[] => {
+  return JSON.parse(localStorage.getItem("favorites") || "[]");
+};
 
 export default {
-    existInFavorites,
-    toggleFavorite,
-    pokemons,
-}
+  existInFavorites,
+  toggleFavorite,
+  pokemons,
+};

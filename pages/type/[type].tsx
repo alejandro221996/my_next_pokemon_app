@@ -2,58 +2,48 @@
 import { useEffect, useState } from "react";
 
 import { GetStaticProps, NextPage, GetStaticPaths } from "next";
-import {
-  Button,
-  Card,
-  Container,
-  Grid,
-  Image,
-  Row,
-  Text,
-} from "@nextui-org/react";
-
-import confetti from "canvas-confetti";
+import { Grid, Input, Row } from "@nextui-org/react";
 
 import { pokeApi } from "../../api";
 import { Layout } from "../../components/layouts";
 import {
   Pokemon,
   PokemonByType,
-  PokemonListResponse,
+  ReqResToken,
   SmallPokemon,
 } from "../../interfaces";
-import { localFavorites } from "../../utils";
-import { getPokemonInfo } from "../../utils/getPokemonInfo";
 import { useRouter } from "next/router";
-import { PokemonCard } from "../../components/pokemon";
+import { PokemonTypeCard } from "../../components/pokemon/PokemonTypeCard";
 
-interface Props {
-  pokemon: Pokemon;
-}
-
+interface Props {}
 const PokemonByTypePage: NextPage<Props> = ({}) => {
   const router = useRouter();
   //get params from url
-
+  const { type } = router.query;
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const getPokemonByType = async () => {
-    const { type } = router.query;
-    console.log(type);
-    const { data } = await pokeApi.get<PokemonByType>(
-      `/type/${type}?limit=151`
-    );
-    for (const pokemon of data.pokemon) {
-      console.log(pokemon);
-    }
-  };
-  const onClick = (pokemon: Pokemon) => {
-    router.push(`/pokemon/${pokemon.name}`);
+    if (!type) return;
+    const { data } = await pokeApi.get<PokemonByType>(`/type/${type}`);
+    const promises = data.pokemon.map(async (pokemon) => {
+      const { data } = await pokeApi.get<Pokemon>(pokemon.pokemon.url);
+      return data;
+    });
+    const results = await Promise.all(promises);
+    setPokemons(results);
   };
 
   useEffect(() => {
     getPokemonByType();
-  }, []);
-  return <Layout title="Listado de Pokémons"></Layout>;
+  }, [type]);
+  return (
+    <Layout title="Listado de Pokémons">
+      <Grid.Container gap={2} justify="flex-start">
+        {pokemons.map((pokemon) => (
+          <PokemonTypeCard key={pokemon.id} pokemon={pokemon} />
+        ))}
+      </Grid.Container>
+    </Layout>
+  );
 };
 
 export default PokemonByTypePage;

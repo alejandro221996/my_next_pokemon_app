@@ -28,15 +28,11 @@ interface Props {
 
 const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
   const router = useRouter();
-
-  const onClick = (name: string) => {
-    router.push(`/name/${name}`);
-  };
   const [isInFavorites, setIsInFavorites] = useState(
-    localFavorites.existInFavorites(pokemon.id)
+    localFavorites.existInFavorites(pokemon.name)
   );
   const onToggleFavorite = () => {
-    localFavorites.toggleFavorite(pokemon.id);
+    localFavorites.toggleFavorite(pokemon.name);
     setIsInFavorites(!isInFavorites);
 
     if (isInFavorites) return;
@@ -51,9 +47,10 @@ const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
         y: 0,
       },
     });
+    /* Refresh page */
+    router.replace(router.asPath);
   };
   const [evolutions, setEvolutions] = useState<ReqResToken[]>();
-
   const getEvolutions = async () => {
     const evolutionsInfo: ReqResToken[] = [];
     const { data } = await pokeApi.get<ReqResToken>(
@@ -84,7 +81,9 @@ const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
     }
     setEvolutions(evolutionsInfo);
   };
-
+  const handleClick = (pokemon: string) => {
+    router.push(`/name/${pokemon}`);
+  };
   useEffect(() => {
     getEvolutions();
   }, []);
@@ -93,7 +92,7 @@ const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
     <Layout title={pokemon.name}>
       <Grid.Container css={{ marginTop: "5px" }} gap={2}>
         <Grid xs={12} sm={4}>
-          <Card hoverable css={{ padding: "30px" }}>
+          <Card hoverable css={{ padding: "30px" }} key={pokemon.id}>
             <Card.Body>
               <Card.Image
                 src={
@@ -144,44 +143,41 @@ const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
             <Card.Body>
               <Grid xs={12} sm={12}>
                 {evolutions?.map((evo) => (
-                  <>
-                    <Card
-                      hoverable
-                      css={{
-                        padding: "10px",
-                        backgroundColor: "rgb(50 35 35);",
-                        marginRight: "50px",
-                      }}
-                      onClick={() => onClick(evo.name)}
-                      clickable
-                    >
-                      <Card.Body>
-                        <Card.Image
-                          src={
-                            evo.sprites.other?.dream_world.front_default ||
-                            "/no-image.png"
-                          }
-                          alt={evo.name}
-                          width="100%"
-                          height={200}
-                        />
+                  <Card
+                    hoverable
+                    css={{
+                      padding: "10px",
+                      backgroundColor: "rgb(50 35 35);",
+                      marginRight: "50px",
+                    }}
+                    key={evo.name}
+                  >
+                    <Card.Body>
+                      <Card.Image
+                        src={
+                          evo.sprites.other?.dream_world.front_default ||
+                          "/no-image.png"
+                        }
+                        alt={evo.name}
+                        width="100%"
+                        height={200}
+                      />
 
-                        <Text h3 transform="capitalize">
-                          Name: {evo.name}{" "}
-                        </Text>
-                        <Text h3 transform="capitalize">
-                          Weigth: {evo.weight}gr.
-                        </Text>
-                        <Text
-                          h1
-                          transform="capitalize"
-                          color={getImageType(evo.types[0].type.name)}
-                        >
-                          Type: {evo.types[0].type.name}{" "}
-                        </Text>
-                      </Card.Body>
-                    </Card>
-                  </>
+                      <Text h3 transform="capitalize">
+                        Name: {evo.name}{" "}
+                      </Text>
+                      <Text h3 transform="capitalize">
+                        Weigth: {evo.weight}gr.
+                      </Text>
+                      <Text
+                        h1
+                        transform="capitalize"
+                        color={getImageType(evo.types[0].type.name)}
+                      >
+                        Type: {evo.types[0].type.name}{" "}
+                      </Text>
+                    </Card.Body>
+                  </Card>
                 ))}
               </Grid>
             </Card.Body>
