@@ -12,6 +12,7 @@ export const getPokemonByType = async (nameOrId: string) => {
       types: data.types,
       stats: data.stats,
       weight: data.weight,
+      height: data.height,
     };
   } catch (error) {
     return null;

@@ -91,6 +91,7 @@ const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
 
   const textGradient = getTextGradient(pokemon.types[0].type.name);
   console.log(textGradient);
+  console.log(pokemon);
   return (
     <Layout title={pokemon.name}>
       <Grid.Container css={{ marginTop: "5px" }} gap={2}>
