@@ -106,16 +106,16 @@ const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
                 width="100%"
                 height={200}
               />
-              <Text h1 transform="capitalize" css={{ textGradient }}>
+              <Text h2 transform="capitalize" css={{ textGradient }}>
                 Name: {pokemon.name}
               </Text>
-              <Text h1 transform="capitalize">
+              <Text h2 transform="capitalize">
                 Weight: {pokemon.weight}gr.
               </Text>
-              <Text h1 transform="capitalize">
+              <Text h2 transform="capitalize">
                 Height: {pokemon.height}cm.
               </Text>
-              <Text h1 transform="capitalize" css={{ textGradient }}>
+              <Text h2 transform="capitalize" css={{ textGradient }}>
                 Type: {pokemon.types[0].type.name}
               </Text>
             </Card.Body>
