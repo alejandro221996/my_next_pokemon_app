@@ -1,13 +1,32 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-
 import { Grid, Card } from "@nextui-org/react";
+import { getPokemonInfo } from "../../utils";
+import { PropsPokemon } from "../../interfaces";
 
 interface Props {
-  pokemonId: string;
+  pokemonId: number;
 }
+
 export const FavoriteCardPokemon: FC<Props> = ({ pokemonId }) => {
   const router = useRouter();
+  const [pokemon, setPokemon] = useState<PropsPokemon | null>(null);
+
+  useEffect(() => {
+    getPokemonInfo(pokemonId.toString()).then((data) => {
+      if (data) {
+        setPokemon({
+          id: data.id,
+          name: data.name,
+          sprites: [data.sprites],
+          types: data.types,
+          stats: data.stats,
+          weight: data.weight,
+          height: data.height,
+        });
+      }
+    });
+  }, [pokemonId]);
 
   const onFavoriteClicked = () => {
     router.push(`/pokemon/${pokemonId}`);
@@ -21,12 +40,15 @@ export const FavoriteCardPokemon: FC<Props> = ({ pokemonId }) => {
       key={pokemonId}
       onClick={onFavoriteClicked}
     >
-      <Card hoverable clickable css={{ padding: 10 }}>
+      <Card hoverable clickable css={{ padding: 20 }}>
         <Card.Image
           src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemonId}.svg`}
           width={"100%"}
           height={140}
         />
+        <Card.Footer>
+          <h4>{pokemon?.name}</h4>
+        </Card.Footer>
       </Card>
     </Grid>
   );
