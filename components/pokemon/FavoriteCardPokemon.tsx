@@ -40,7 +40,7 @@ export const FavoriteCardPokemon: FC<Props> = ({ pokemonId }) => {
       key={pokemonId}
       onClick={onFavoriteClicked}
     >
-      <Card hoverable clickable css={{ padding: 20 }}>
+      <Card hoverable clickable css={{ padding: 10 }}>
         <Card.Image
           src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemonId}.svg`}
           width={"100%"}
