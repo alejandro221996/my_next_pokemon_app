@@ -5,7 +5,7 @@ import { localFavorites } from "../../utils";
 import { FavoritePokemons } from "../../components/pokemon";
 
 const FavoritesPage = () => {
-  const [favoritePokemons, setFavoritePokemons] = useState<string[]>([]);
+  const [favoritePokemons, setFavoritePokemons] = useState<number[]>([]);
 
   useEffect(() => {
     setFavoritePokemons(localFavorites.pokemons());
