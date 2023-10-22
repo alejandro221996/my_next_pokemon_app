@@ -17,7 +17,12 @@ export const PokemonTypeCard: FC<Props> = ({ pokemon }) => {
 
   return (
     <Grid xs={6} sm={3} md={2} xl={3} key={pokemon.id}>
-      <Card hoverable clickable onClick={onClick}>
+      <Card
+        hoverable
+        clickable
+        onClick={onClick}
+        css={{ border: "2px white solid" }}
+      >
         <Card.Body css={{ p: 1 }}>
           {pokemon.sprites.front_default && (
             <Card.Image

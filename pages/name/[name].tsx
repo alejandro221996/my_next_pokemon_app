@@ -11,15 +11,14 @@ import { useRouter } from "next/router";
 import { getTextGradient } from "../../utils/getTypeColor";
 
 // Define CSS constants
-const cardStyles = {
-  padding: 20,
-};
 const evoStyles = {
   padding: 20,
   backgroundColor: "rgb(50 35 35)",
+  border: "2px white solid",
 };
 const mainStyles = {
   padding: 20,
+  border: "2px white solid",
 };
 
 interface Props {
@@ -136,7 +135,7 @@ const PokemonByNamePage: NextPage<Props> = ({ pokemon }) => {
           </Card>
         </Grid>
         <Grid xs={12} sm={6} md={8} lg={8}>
-          <Card>
+          <Card css={{ border: "2px white solid" }}>
             <Card.Header
               css={{
                 display: "flex",
